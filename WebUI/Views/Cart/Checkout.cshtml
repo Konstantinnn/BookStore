@@ -1,0 +1,47 @@
+﻿@model Domain.Entities.ShippingDetails
+
+@{
+    ViewBag.Title = "BookStore: Order Form";
+}
+
+<h2>Order Form</h2>
+
+<p>Please, enter your contact details</p>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary();
+    @Html.ValidationSummary(); 
+    <h3>Contacts</h3>
+    <div class="form-group">
+        <label>Your Name</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control"})
+    </div>
+
+    <h3>Delivery address</h3>
+    foreach (var property in ViewData.ModelMetadata.Properties)
+    {
+        if (property.PropertyName != "Name" && property.PropertyName != "GiftWrap")
+        {
+            <div class="form-group">
+                <label>
+                    @(property.DisplayName ?? property.PropertyName)
+                </label>
+                @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+            </div>
+
+        }
+    }
+
+    <h3>Options</h3>
+    <div class="form-group">
+        <label>
+            @Html.EditorFor(x => x.GiftWrap)
+            Do you want to use a Gifted Wrap?
+        </label>
+    </div>
+    
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="proces the purchase"/>
+    </div>
+}
